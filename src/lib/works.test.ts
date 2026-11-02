@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { WORKS, findWork, firstWithShots, pipelineOutputs, type Work } from "./works";
+import { WORKS, findWork, firstWithShots, pipelineOutputs, scrolledShots, type Work } from "./works";
 
 describe("WORKS", () => {
   it("id が重ならない", () => {
@@ -17,6 +17,21 @@ describe("WORKS", () => {
       expect(w.figure.shots.desktop).toMatch(/^\/works\/.+-1440\.png$/);
       expect(w.figure.shots.mobile).toMatch(/^\/works\/.+-390\.png$/);
     }
+  });
+});
+
+describe("scrolledShots", () => {
+  it("画面を持つ作品は PC・スマホとも複数枚を返す", () => {
+    for (const w of WORKS.filter((x) => x.figure.type === "shots")) {
+      const s = scrolledShots(w);
+      expect(s.desktop.length).toBeGreaterThan(1);
+      expect(s.mobile.length).toBeGreaterThan(1);
+      for (const p of s.desktop) expect(p).toMatch(/^\/works\/.+-1440-s\d+\.png$/);
+      for (const p of s.mobile) expect(p).toMatch(/^\/works\/.+-390-s\d+\.png$/);
+    }
+  });
+  it("画面を持たない作品は空を返す", () => {
+    expect(scrolledShots(findWork("ai-dev-template") as Work)).toEqual({ desktop: [], mobile: [] });
   });
 });
 

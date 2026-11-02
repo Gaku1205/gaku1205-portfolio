@@ -5,7 +5,7 @@ import { workNumber } from "@/lib/format";
 import { RunLog } from "./RunLog";
 
 /** 作品の図。画面を持つ作品は PC とスマホの画像、工場は進み方の図と作った物 */
-export function WorkFigure({ work }: { work: Work }) {
+export function WorkFigure({ work, outputBase = "#" }: { work: Work; outputBase?: string }) {
   if (work.figure.type === "shots") {
     const { shots } = work.figure;
     return (
@@ -46,7 +46,7 @@ export function WorkFigure({ work }: { work: Work }) {
             if (o.figure.type !== "shots") return null;
             return (
               <li key={o.id}>
-                <a href={`#${o.id}`} className="pipe__out">
+                <a href={`${outputBase}${o.id}`} className="pipe__out">
                   <Image src={o.figure.shots.desktop} alt="" width={1440} height={900} sizes="(min-width: 900px) 24vw, 46vw" />
                   <span className="pipe__outname">
                     <span className="mono">{workNumber(index)}</span> {o.name}

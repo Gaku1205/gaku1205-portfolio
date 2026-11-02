@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { shortUrl, workNumber } from "@/lib/format";
 import type { Work } from "@/lib/works";
 import { Reveal } from "./Reveal";
@@ -50,6 +51,17 @@ export function WorkSection({ work, index }: { work: Work; index: number }) {
               ))}
             </ul>
             <ul className="work__links">
+              <li>
+                <Link href={`/works/${work.id}`} className="link-row link-row--more">
+                  <span className="link-row__label">
+                    {work.figure.type === "shots" ? "画面をもっと見る" : "進み方を詳しく見る"}
+                  </span>
+                  <span className="link-row__url" aria-hidden="true" />
+                  <span className="link-row__arrow" aria-hidden="true">
+                    →
+                  </span>
+                </Link>
+              </li>
               {work.links.map((l) => (
                 <li key={l.href}>
                   <a href={l.href} target="_blank" rel="noreferrer" className="link-row">

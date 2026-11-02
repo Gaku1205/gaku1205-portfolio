@@ -14,6 +14,8 @@ export type WorkShots = {
   mobile: string;
   /** 画像の説明（alt） */
   alt: string;
+  /** スクロールしながら 1 画面ずつ撮った画面（上から順。--scrolls 4 で 4 枚ずつ） */
+  scrolled: { desktop: string[]; mobile: string[] };
 };
 
 export type WorkFigure =
@@ -72,6 +74,10 @@ export const WORKS: Work[] = [
         desktop: "/works/agent-desk-demo-1440.png",
         mobile: "/works/agent-desk-demo-390.png",
         alt: "agent-desk のデモ画面。上に清書から公開までの段、左に「あなたの番 8」、中央に判断待ちの一覧が並ぶ",
+        scrolled: {
+          desktop: [1, 2, 3, 4].map((n) => `/works/agent-desk-demo-1440-s${n}.png`),
+          mobile: [1, 2, 3, 4].map((n) => `/works/agent-desk-demo-390-s${n}.png`),
+        },
       },
     },
   },
@@ -94,6 +100,10 @@ export const WORKS: Work[] = [
         desktop: "/works/atelier-journal-eight-vercel-app-1440.png",
         mobile: "/works/atelier-journal-eight-vercel-app-390.png",
         alt: "atelier-journal の表紙。灰色の海の上に大きく「Usuzumi」、右に縦書きで「余白を、まとう。」",
+        scrolled: {
+          desktop: [1, 2, 3, 4].map((n) => `/works/atelier-journal-eight-vercel-app-1440-s${n}.png`),
+          mobile: [1, 2, 3, 4].map((n) => `/works/atelier-journal-eight-vercel-app-390-s${n}.png`),
+        },
       },
     },
   },
@@ -116,6 +126,10 @@ export const WORKS: Work[] = [
         desktop: "/works/neon-sneaker-drop-vercel-app-1440.png",
         mobile: "/works/neon-sneaker-drop-vercel-app-390.png",
         alt: "neon-sneaker-drop の最初の画面。黒地に蛍光の黄緑で「PULSAR-9」、手前にスニーカー、左下に「地面を、蹴り返せ。」",
+        scrolled: {
+          desktop: [1, 2, 3, 4].map((n) => `/works/neon-sneaker-drop-vercel-app-1440-s${n}.png`),
+          mobile: [1, 2, 3, 4].map((n) => `/works/neon-sneaker-drop-vercel-app-390-s${n}.png`),
+        },
       },
     },
   },
@@ -129,6 +143,13 @@ export function findWork(id: string, works: readonly Work[] = WORKS): Work | und
 export function firstWithShots(works: readonly Work[] = WORKS): { work: Work; index: number } | undefined {
   const index = works.findIndex((w) => w.figure.type === "shots");
   return index === -1 ? undefined : { work: works[index], index };
+}
+
+/** スクロールした画面の画像（PC・スマホ）。画面を持たない作品は空を返す */
+export function scrolledShots(work: Work): { desktop: string[]; mobile: string[] } {
+  if (work.figure.type !== "shots") return { desktop: [], mobile: [] };
+  const { desktop, mobile } = work.figure.shots.scrolled;
+  return { desktop: [...desktop], mobile: [...mobile] };
 }
 
 /** 工場（pipeline）の作品が作った物のうち、画面の画像を持つ物だけを順に返す */
