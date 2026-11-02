@@ -75,8 +75,8 @@ export const WORKS: Work[] = [
         mobile: "/works/agent-desk-demo-390.png",
         alt: "agent-desk のデモ画面。上に清書から公開までの段、左に「あなたの番 8」、中央に判断待ちの一覧が並ぶ",
         scrolled: {
-          desktop: [1, 2, 3, 4].map((n) => `/works/agent-desk-demo-1440-s${n}.png`),
-          mobile: [1, 2, 3, 4].map((n) => `/works/agent-desk-demo-390-s${n}.png`),
+          desktop: [1, 2].map((n) => `/works/agent-desk-demo-1440-s${n}.png`),
+          mobile: [1, 2, 3].map((n) => `/works/agent-desk-demo-390-s${n}.png`),
         },
       },
     },
