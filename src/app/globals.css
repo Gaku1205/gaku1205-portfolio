@@ -696,6 +696,89 @@ ol {
   height: auto;
 }
 
+/* ===== 作品の詳しいページ ===== */
+.detail__back {
+  padding: 8px var(--pad) 20px;
+}
+.detail__back--end {
+  padding: 0;
+  margin-top: 64px;
+}
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  text-decoration: none;
+  font-size: 15px;
+}
+.back:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.work--detail {
+  padding-bottom: var(--section);
+}
+.work__body--detail {
+  margin-top: 0;
+}
+.link-row--more:hover .link-row__label {
+  text-decoration: underline;
+}
+.detail__pipe {
+  margin-top: 48px;
+}
+.scrolled {
+  margin-top: 64px;
+  border-top: 1px solid var(--ink);
+  padding-top: 28px;
+  display: grid;
+  gap: 28px;
+}
+.scrolled__sub {
+  margin-top: 40px;
+}
+.scrolled__pc {
+  display: grid;
+  gap: 40px;
+}
+.scrolled__pc li {
+  display: grid;
+  gap: 8px;
+}
+.scrolled__frame {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  background: #e6e2da;
+}
+.scrolled__sp {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px var(--gap);
+}
+@media (min-width: 900px) {
+  .scrolled__sp {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.scrolled__sp li {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+.scrolled__phone {
+  border: 1px solid var(--ink);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 24px 48px -24px rgb(18 18 18 / 0.45);
+  background: var(--ink);
+}
+.scrolled img {
+  width: 100%;
+  height: auto;
+}
+
 /* 工場の図 */
 .pipe {
   display: grid;
