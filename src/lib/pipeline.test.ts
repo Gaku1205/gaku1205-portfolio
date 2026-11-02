@@ -2,9 +2,10 @@ import { describe, expect, it } from "vitest";
 import { PIPELINE_STEPS, nextStep, progressAt } from "./pipeline";
 
 describe("PIPELINE_STEPS", () => {
-  it("人が1行書いて始まり、35分で公開に着く", () => {
+  it("人が1行書いて始まり、約35分で公開に着く", () => {
     expect(PIPELINE_STEPS[0].who).toBe("人");
-    expect(PIPELINE_STEPS[PIPELINE_STEPS.length - 1].at).toBe(35);
+    expect(PIPELINE_STEPS[0].at).toBe(0);
+    expect(PIPELINE_STEPS[PIPELINE_STEPS.length - 1].at).toBeCloseTo(34.95, 2);
   });
   it("時刻は増えていく順に並ぶ", () => {
     for (let i = 1; i < PIPELINE_STEPS.length; i++) {

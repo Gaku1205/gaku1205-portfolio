@@ -56,7 +56,7 @@ export function RunLog({ steps, title, size = "panel" }: Props) {
       <div className="runlog__bar" aria-hidden="true">
         <span style={{ transform: `scaleX(${progress})` }} />
       </div>
-      <p className="runlog__note">時刻は1回の目安</p>
+      <p className="runlog__note">実際に回った1回の記録</p>
     </figure>
   );
 }
