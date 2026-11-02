@@ -13,6 +13,7 @@
   - 場面：リンクを開いて最初の1画面で「AI に開発を回させる仕組みを作っている人」と分かり、気になった作品の画面を見て、公開ページか GitHub へ進む
   - PC でもスマホでも、数十秒で4つの作品を見比べられることが大事
 - 技術：Next.js（App Router）＋TypeScript、テストはVitest
+- 公開：GitHub Pages（https://gaku1205.github.io）に、静的なサイトとして書き出して出す（`next.config.ts` の `output: "export"`）。サーバーで動く機能（API・画像の最適化・リクエストごとに変わる画面）は使わない。`[id]` のようなページは `generateStaticParams` で全部のページを書き出す
 
 ## 画面
 
