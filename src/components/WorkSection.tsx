@@ -19,6 +19,7 @@ export function WorkSection({ work, index }: { work: Work; index: number }) {
 
       <div className="work__main">
         <header className="work__head">
+          {work.award ? <p className="label work__award">{work.award}</p> : null}
           <h3 id={headingId} className="work__name">
             <span className="visually-hidden">{num} </span>
             {work.name}

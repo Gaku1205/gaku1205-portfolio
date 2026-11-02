@@ -9,26 +9,33 @@ export function WorkFigure({ work, outputBase = "#" }: { work: Work; outputBase?
   if (work.figure.type === "shots") {
     const { shots } = work.figure;
     return (
-      <div className="shot">
-        <div className="shot__desktop">
-          <Image
-            src={shots.desktop}
-            alt={shots.alt}
-            width={1440}
-            height={900}
-            sizes="(min-width: 900px) 72vw, 100vw"
-          />
+      <>
+        <div className="shot">
+          <div className="shot__desktop">
+            <Image
+              src={shots.desktop}
+              alt={shots.alt}
+              width={1440}
+              height={900}
+              sizes="(min-width: 900px) 72vw, 100vw"
+            />
+          </div>
+          <div className="shot__mobile">
+            <Image
+              src={shots.mobile}
+              alt=""
+              width={390}
+              height={844}
+              sizes="(min-width: 900px) 16vw, 30vw"
+            />
+          </div>
         </div>
-        <div className="shot__mobile">
-          <Image
-            src={shots.mobile}
-            alt=""
-            width={390}
-            height={844}
-            sizes="(min-width: 900px) 16vw, 30vw"
-          />
-        </div>
-      </div>
+        {shots.extras?.map((e) => (
+          <div key={e.src} className="shot__extra">
+            <Image src={e.src} alt={e.alt} width={1440} height={900} sizes="(min-width: 900px) 72vw, 100vw" />
+          </div>
+        ))}
+      </>
     );
   }
 

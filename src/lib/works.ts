@@ -16,6 +16,8 @@ export type WorkShots = {
   alt: string;
   /** スクロールしながら 1 画面ずつ撮った画面（上から順。--scrolls 4 で 4 枚ずつ） */
   scrolled: { desktop: string[]; mobile: string[] };
+  /** 図の下に並べる追加の画像（PC のみ。例：めぐりモノの出品一覧） */
+  extras?: { src: string; alt: string }[];
 };
 
 export type WorkFigure =
@@ -31,6 +33,8 @@ export type Work = {
   nameJa: string;
   /** 種類（仕組み・道具・工場で作ったサイト など） */
   kind: string;
+  /** 受賞の文字（受賞作だけ。名前の上に出す） */
+  award?: string;
   /** 1行で言うと */
   tagline: string;
   /** 何か */
@@ -43,6 +47,33 @@ export type Work = {
 };
 
 export const WORKS: Work[] = [
+  {
+    id: "megurimono",
+    name: "megurimono",
+    nameJa: "博多の遺失物オークション（hakata-lost-found-auction）",
+    kind: "受賞作",
+    award: "AWS デジタル社会実現ツアー2025 九州 最優秀賞",
+    tagline: "持ち主が見つからなかった落とし物を、地域のオークションで次の使い手へ。",
+    what: "警察・企業に届けられ、持ち主が見つからなかった落とし物を、地域のオークションで次の使い手へつなぐ Web アプリ。売上は自治体の歳入と地域振興に還元し、落札品は郵送ではなく、まちの受取拠点で受け渡す。出品一覧・検索・入札・お気に入り、出品元の売上確認と QR コードでの受け渡し、運営の管理画面（入札の吊り上げの検知など）、出品画像からの AI 自動入力がある。",
+    how: "React・TypeScript・Vite のフロントエンドを CloudFront で配信し、API は AWS Lambda・API Gateway、データは DynamoDB・S3、認証は Amazon Cognito。AI の自動入力は Amazon Bedrock の Claude で、全部を AWS CDK（TypeScript）で組んでいる。",
+    stack: ["React", "TypeScript", "AWS Lambda", "DynamoDB", "Amazon Cognito", "Amazon Bedrock", "AWS CDK"],
+    links: [{ label: "GitHub", href: "https://github.com/Gaku1205/hakata-lost-found-auction" }],
+    figure: {
+      type: "shots",
+      shots: {
+        desktop: "/works/megurimono-1440.png",
+        mobile: "/works/megurimono-390.png",
+        alt: "めぐりモノのトップ画面。博多の遺失物オークションの入口と、出品中の落とし物が並ぶ",
+        scrolled: { desktop: [], mobile: [] },
+        extras: [
+          {
+            src: "/works/megurimono-items-1440.png",
+            alt: "めぐりモノの出品一覧。落とし物の出品が並び、検索や入札へ進める",
+          },
+        ],
+      },
+    },
+  },
   {
     id: "ai-dev-template",
     name: "ai-dev-template",
