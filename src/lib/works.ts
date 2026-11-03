@@ -1,5 +1,6 @@
 // 作品の中身はここ1か所にまとめる。作品を足すときは、WORKS に1つ足すだけでよい。
-// 画像は `node .github/scripts/shot.mjs --out public/works --widths 1440,390 <公開ページの URL>` で撮る。
+// 画像は `node .github/scripts/shot.mjs --scale 2 --format webp --out public/works --widths 1440,390 <公開ページの URL>` で撮る。
+import { shortUrl } from "./format";
 
 export type WorkLink = {
   /** 画面に出す文字（例：公開ページ） */
@@ -61,13 +62,13 @@ export const WORKS: Work[] = [
     figure: {
       type: "shots",
       shots: {
-        desktop: "/works/megurimono-1440.png",
-        mobile: "/works/megurimono-390.png",
+        desktop: "/works/megurimono-1440.webp",
+        mobile: "/works/megurimono-390.webp",
         alt: "めぐりモノのトップ画面。博多の遺失物オークションの入口と、出品中の落とし物が並ぶ",
         scrolled: { desktop: [], mobile: [] },
         extras: [
           {
-            src: "/works/megurimono-items-1440.png",
+            src: "/works/megurimono-items-1440.webp",
             alt: "めぐりモノの出品一覧。落とし物の出品が並び、検索や入札へ進める",
           },
         ],
@@ -102,12 +103,12 @@ export const WORKS: Work[] = [
     figure: {
       type: "shots",
       shots: {
-        desktop: "/works/agent-desk-demo-1440.png",
-        mobile: "/works/agent-desk-demo-390.png",
+        desktop: "/works/agent-desk-demo-1440.webp",
+        mobile: "/works/agent-desk-demo-390.webp",
         alt: "agent-desk のデモ画面。上に清書から公開までの段、左に「あなたの番 8」、中央に判断待ちの一覧が並ぶ",
         scrolled: {
-          desktop: [1, 2].map((n) => `/works/agent-desk-demo-1440-s${n}.png`),
-          mobile: [1, 2, 3].map((n) => `/works/agent-desk-demo-390-s${n}.png`),
+          desktop: [1, 2].map((n) => `/works/agent-desk-demo-1440-s${n}.webp`),
+          mobile: [1, 2, 3].map((n) => `/works/agent-desk-demo-390-s${n}.webp`),
         },
       },
     },
@@ -128,12 +129,12 @@ export const WORKS: Work[] = [
     figure: {
       type: "shots",
       shots: {
-        desktop: "/works/atelier-journal-eight-vercel-app-1440.png",
-        mobile: "/works/atelier-journal-eight-vercel-app-390.png",
+        desktop: "/works/atelier-journal-eight-vercel-app-1440.webp",
+        mobile: "/works/atelier-journal-eight-vercel-app-390.webp",
         alt: "atelier-journal の表紙。灰色の海の上に大きく「Usuzumi」、右に縦書きで「余白を、まとう。」",
         scrolled: {
-          desktop: [1, 2, 3, 4].map((n) => `/works/atelier-journal-eight-vercel-app-1440-s${n}.png`),
-          mobile: [1, 2, 3, 4].map((n) => `/works/atelier-journal-eight-vercel-app-390-s${n}.png`),
+          desktop: [1, 2, 3, 4].map((n) => `/works/atelier-journal-eight-vercel-app-1440-s${n}.webp`),
+          mobile: [1, 2, 3, 4].map((n) => `/works/atelier-journal-eight-vercel-app-390-s${n}.webp`),
         },
       },
     },
@@ -154,12 +155,12 @@ export const WORKS: Work[] = [
     figure: {
       type: "shots",
       shots: {
-        desktop: "/works/neon-sneaker-drop-vercel-app-1440.png",
-        mobile: "/works/neon-sneaker-drop-vercel-app-390.png",
+        desktop: "/works/neon-sneaker-drop-vercel-app-1440.webp",
+        mobile: "/works/neon-sneaker-drop-vercel-app-390.webp",
         alt: "neon-sneaker-drop の最初の画面。黒地に蛍光の黄緑で「PULSAR-9」、手前にスニーカー、左下に「地面を、蹴り返せ。」",
         scrolled: {
-          desktop: [1, 2, 3, 4].map((n) => `/works/neon-sneaker-drop-vercel-app-1440-s${n}.png`),
-          mobile: [1, 2, 3, 4].map((n) => `/works/neon-sneaker-drop-vercel-app-390-s${n}.png`),
+          desktop: [1, 2, 3, 4].map((n) => `/works/neon-sneaker-drop-vercel-app-1440-s${n}.webp`),
+          mobile: [1, 2, 3, 4].map((n) => `/works/neon-sneaker-drop-vercel-app-390-s${n}.webp`),
         },
       },
     },
@@ -174,6 +175,12 @@ export function findWork(id: string, works: readonly Work[] = WORKS): Work | und
 export function firstWithShots(works: readonly Work[] = WORKS): { work: Work; index: number } | undefined {
   const index = works.findIndex((w) => w.figure.type === "shots");
   return index === -1 ? undefined : { work: works[index], index };
+}
+
+/** ブラウザの枠のアドレスに出す URL（短く）。公開ページがあればそれ、無ければ最初のリンク（めぐりモノは GitHub） */
+export function frameAddress(work: Work): string {
+  const link = work.links.find((l) => l.label === "公開ページ") ?? work.links[0];
+  return link ? shortUrl(link.href) : "";
 }
 
 /** スクロールした画面の画像（PC・スマホ）。画面を持たない作品は空を返す */

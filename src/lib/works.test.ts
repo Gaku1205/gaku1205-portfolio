@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { WORKS, findWork, firstWithShots, pipelineOutputs, scrolledShots, type Work } from "./works";
+import { WORKS, findWork, firstWithShots, frameAddress, pipelineOutputs, scrolledShots, type Work } from "./works";
 
 describe("WORKS", () => {
   it("id が重ならない", () => {
@@ -21,7 +21,7 @@ describe("WORKS", () => {
     expect(w.award).toBe("AWS デジタル社会実現ツアー2025 九州 最優秀賞");
     if (w.figure.type !== "shots") throw new Error("shots のはず");
     const extras = w.figure.shots.extras ?? [];
-    expect(extras.map((e) => e.src)).toEqual(["/works/megurimono-items-1440.png"]);
+    expect(extras.map((e) => e.src)).toEqual(["/works/megurimono-items-1440.webp"]);
     expect(extras[0].alt).not.toBe("");
   });
   it("めぐりモノのリンクは GitHub だけ（公開ページは無い）", () => {
@@ -32,8 +32,8 @@ describe("WORKS", () => {
   it("画像は public/works から読む", () => {
     for (const w of WORKS) {
       if (w.figure.type !== "shots") continue;
-      expect(w.figure.shots.desktop).toMatch(/^\/works\/.+-1440\.png$/);
-      expect(w.figure.shots.mobile).toMatch(/^\/works\/.+-390\.png$/);
+      expect(w.figure.shots.desktop).toMatch(/^\/works\/.+-1440\.webp$/);
+      expect(w.figure.shots.mobile).toMatch(/^\/works\/.+-390\.webp$/);
     }
   });
 });
@@ -44,12 +44,25 @@ describe("scrolledShots", () => {
       const s = scrolledShots(w);
       expect(s.desktop.length).toBeGreaterThan(1);
       expect(s.mobile.length).toBeGreaterThan(1);
-      for (const p of s.desktop) expect(p).toMatch(/^\/works\/.+-1440-s\d+\.png$/);
-      for (const p of s.mobile) expect(p).toMatch(/^\/works\/.+-390-s\d+\.png$/);
+      for (const p of s.desktop) expect(p).toMatch(/^\/works\/.+-1440-s\d+\.webp$/);
+      for (const p of s.mobile) expect(p).toMatch(/^\/works\/.+-390-s\d+\.webp$/);
     }
   });
   it("画面を持たない作品は空を返す", () => {
     expect(scrolledShots(findWork("ai-dev-template") as Work)).toEqual({ desktop: [], mobile: [] });
+  });
+});
+
+describe("frameAddress", () => {
+  it("公開ページがあればその URL を短くして返す", () => {
+    expect(frameAddress(findWork("agent-desk") as Work)).toBe("agent-desk-ip1u.vercel.app");
+    expect(frameAddress(findWork("neon-sneaker-drop") as Work)).toBe("neon-sneaker-drop.vercel.app");
+  });
+  it("公開ページが無ければ最初のリンク（GitHub）を返す", () => {
+    expect(frameAddress(WORKS[0])).toBe("github.com/Gaku1205/hakata-lost-found-auction");
+  });
+  it("リンクが無ければ空", () => {
+    expect(frameAddress({ ...WORKS[0], links: [] })).toBe("");
   });
 });
 

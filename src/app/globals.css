@@ -673,30 +673,91 @@ ol {
   position: relative;
   padding-bottom: 6%;
 }
-.shot__desktop {
-  border: 1px solid var(--rule);
-  border-radius: 4px;
-  overflow: hidden;
-  background: #e6e2da;
-}
 .shot__mobile {
   position: absolute;
   right: 3%;
   bottom: 0;
   width: 19%;
   min-width: 82px;
-  border-radius: 14px;
-  overflow: hidden;
-  border: 1px solid var(--ink);
-  box-shadow: 0 24px 48px -24px rgb(18 18 18 / 0.45);
-  background: var(--ink);
 }
 .shot__extra {
   margin-top: 24px;
+}
+
+/* ブラウザの窓：上に細いバー（丸3つ＋アドレス）。CSS だけで作る */
+.browser {
   border: 1px solid var(--rule);
   border-radius: 4px;
   overflow: hidden;
+  background: var(--paper);
+  box-shadow: 0 24px 48px -32px rgb(18 18 18 / 0.3);
+}
+.browser__bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 32px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper);
+}
+.browser__dots {
+  display: flex;
+  gap: 6px;
+  flex: none;
+}
+.browser__dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--rule);
+}
+.browser__address {
+  flex: 1;
+  min-width: 0;
+  height: 20px;
+  line-height: 18px;
+  padding: 0 10px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--gray);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.browser__screen {
   background: #e6e2da;
+  line-height: 0;
+}
+
+/* スマホの輪郭：角の丸い本体・細い縁・上の小さな切り欠き・影。CSS だけで作る */
+.phone {
+  position: relative;
+  padding: 5px;
+  border-radius: 20px;
+  background: var(--ink);
+  box-shadow:
+    0 0 0 1px var(--ink),
+    0 24px 48px -24px rgb(18 18 18 / 0.45);
+}
+.phone__screen {
+  border-radius: 15px;
+  overflow: hidden;
+  background: #e6e2da;
+  line-height: 0;
+}
+.phone__notch {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  width: 28%;
+  aspect-ratio: 5 / 1;
+  transform: translateX(-50%);
+  border-radius: 0 0 8px 8px;
+  background: var(--ink);
 }
 .work__award {
   margin-bottom: 6px;
@@ -758,12 +819,6 @@ ol {
   display: grid;
   gap: 8px;
 }
-.scrolled__frame {
-  border: 1px solid var(--rule);
-  border-radius: 4px;
-  overflow: hidden;
-  background: #e6e2da;
-}
 .scrolled__sp {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -778,13 +833,6 @@ ol {
   display: grid;
   gap: 8px;
   align-content: start;
-}
-.scrolled__phone {
-  border: 1px solid var(--ink);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 24px 48px -24px rgb(18 18 18 / 0.45);
-  background: var(--ink);
 }
 .scrolled img {
   width: 100%;
