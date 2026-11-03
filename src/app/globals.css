@@ -691,6 +691,18 @@ ol {
   box-shadow: 0 24px 48px -24px rgb(18 18 18 / 0.45);
   background: var(--ink);
 }
+.shot__extra {
+  margin-top: 24px;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  background: #e6e2da;
+}
+.work__award {
+  margin-bottom: 6px;
+  overflow-wrap: anywhere;
+}
+.shot__extra img,
 .shot img {
   width: 100%;
   height: auto;
