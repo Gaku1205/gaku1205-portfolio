@@ -11,10 +11,26 @@ describe("WORKS", () => {
       expect(w.links.some((l) => l.href.startsWith("https://github.com/Gaku1205/"))).toBe(true);
     }
   });
-  it("作品は5つで、先頭はめぐりモノ", () => {
-    expect(WORKS).toHaveLength(5);
+  it("作品は6つで、先頭はめぐりモノ、最後は neon-drift-arena", () => {
+    expect(WORKS).toHaveLength(6);
     expect(WORKS[0].id).toBe("megurimono");
     expect(WORKS[0].kind).toBe("受賞作");
+    expect(WORKS[5].id).toBe("neon-drift-arena");
+  });
+  it("neon-drift-arena はスマホの画像が無く、追加の画像3枚を持つ", () => {
+    const w = findWork("neon-drift-arena") as Work;
+    if (w.figure.type !== "shots") throw new Error("shots のはず");
+    expect(w.figure.shots.desktop).toBe("/works/neon-drift-arena-play-1440.webp");
+    expect(w.figure.shots.mobile).toBeUndefined();
+    expect(w.figure.shots.scrolled).toEqual({ desktop: [], mobile: [] });
+    const extras = w.figure.shots.extras ?? [];
+    expect(extras.map((e) => e.src)).toEqual([
+      "/works/neon-drift-arena-title-1440.webp",
+      "/works/neon-drift-arena-boss-1440.webp",
+      "/works/neon-drift-arena-over-1440.webp",
+    ]);
+    for (const e of extras) expect(e.alt).not.toBe("");
+    expect(w.links.map((l) => l.label)).toEqual(["ダウンロード（Windows）", "GitHub"]);
   });
   it("めぐりモノは受賞の文字と追加の画像を持つ", () => {
     const w = WORKS[0];
@@ -33,14 +49,16 @@ describe("WORKS", () => {
     for (const w of WORKS) {
       if (w.figure.type !== "shots") continue;
       expect(w.figure.shots.desktop).toMatch(/^\/works\/.+-1440\.webp$/);
-      expect(w.figure.shots.mobile).toMatch(/^\/works\/.+-390\.webp$/);
+      if (w.figure.shots.mobile) expect(w.figure.shots.mobile).toMatch(/^\/works\/.+-390\.webp$/);
     }
   });
 });
 
 describe("scrolledShots", () => {
   it("画面を持つ作品は PC・スマホとも複数枚を返す", () => {
-    for (const w of WORKS.filter((x) => x.figure.type === "shots" && x.id !== "megurimono")) {
+    for (const w of WORKS.filter(
+      (x) => x.figure.type === "shots" && x.id !== "megurimono" && x.id !== "neon-drift-arena",
+    )) {
       const s = scrolledShots(w);
       expect(s.desktop.length).toBeGreaterThan(1);
       expect(s.mobile.length).toBeGreaterThan(1);
@@ -51,6 +69,9 @@ describe("scrolledShots", () => {
   it("画面を持たない作品は空を返す", () => {
     expect(scrolledShots(findWork("ai-dev-template") as Work)).toEqual({ desktop: [], mobile: [] });
   });
+  it("スマホの画像が無い作品（ゲーム）は空を返す", () => {
+    expect(scrolledShots(findWork("neon-drift-arena") as Work)).toEqual({ desktop: [], mobile: [] });
+  });
 });
 
 describe("frameAddress", () => {
@@ -60,6 +81,9 @@ describe("frameAddress", () => {
   });
   it("公開ページが無ければ最初のリンク（GitHub）を返す", () => {
     expect(frameAddress(WORKS[0])).toBe("github.com/Gaku1205/hakata-lost-found-auction");
+  });
+  it("最初のリンクが公開ページでなくても、GitHub のリンクを返す（ゲーム）", () => {
+    expect(frameAddress(findWork("neon-drift-arena") as Work)).toBe("github.com/Gaku1205/neon-drift-arena");
   });
   it("リンクが無ければ空", () => {
     expect(frameAddress({ ...WORKS[0], links: [] })).toBe("");
@@ -82,7 +106,7 @@ describe("pipelineOutputs", () => {
     const factory = findWork("ai-dev-template");
     expect(factory).toBeDefined();
     const outputs = pipelineOutputs(factory as Work);
-    expect(outputs.map((w) => w.id)).toEqual(["atelier-journal", "neon-sneaker-drop"]);
+    expect(outputs.map((w) => w.id)).toEqual(["atelier-journal", "neon-sneaker-drop", "neon-drift-arena"]);
   });
   it("知らない id と、画像の無い作品は飛ばす", () => {
     const base = WORKS[0];

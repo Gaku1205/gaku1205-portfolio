@@ -11,8 +11,8 @@ export type WorkLink = {
 export type WorkShots = {
   /** 1440×900 で撮った PC の画面（public/ からのパス） */
   desktop: string;
-  /** 390×844 で撮ったスマホの画面（public/ からのパス） */
-  mobile: string;
+  /** 390×844 で撮ったスマホの画面（public/ からのパス）。スマホの画面が無い作品（ゲーム）は省く */
+  mobile?: string;
   /** 画像の説明（alt） */
   alt: string;
   /** スクロールしながら 1 画面ずつ撮った画面（上から順。--scrolls 4 で 4 枚ずつ） */
@@ -85,7 +85,7 @@ export const WORKS: Work[] = [
     how: "GitHub Actions の上で、Claude（AI エージェント）を役割ごとに動かす。清書・デザイン・実装・レビュー・修正を別々の仕事に分け、どこまで AI に任せ、どこで人間が判断するかを、ルールの文書と CI で決めている。",
     stack: ["GitHub Actions", "Claude", "Node.js", "Shell", "Next.js"],
     links: [{ label: "GitHub", href: "https://github.com/Gaku1205/ai-dev-template" }],
-    figure: { type: "pipeline", outputs: ["atelier-journal", "neon-sneaker-drop"] },
+    figure: { type: "pipeline", outputs: ["atelier-journal", "neon-sneaker-drop", "neon-drift-arena"] },
   },
   {
     id: "agent-desk",
@@ -165,6 +165,42 @@ export const WORKS: Work[] = [
       },
     },
   },
+  {
+    id: "neon-drift-arena",
+    name: "neon-drift-arena",
+    nameJa: "NEON DRIFT ARENA — Windows のシューティングゲーム",
+    kind: "工場で作ったゲーム",
+    tagline: "ネオンの闘技場で、弾を避けながら敵の群れを撃ち抜く。",
+    what: "ネオンの光る闘技場で、弾を避けながら敵の群れを撃ち抜くシューティング。2〜5分で1回遊べる。ドリフト中は無敵で、触れた敵の弾が金の欠片に変わり、集めると倍率が上がる。ボス（ガーディアン）、オーバードライブ（衝撃波）、記録がある。",
+    how: "「本気で作った、Windows の exe で遊べるゲーム（ジャンルはおまかせ）」という1行のメモから、工場がジャンル決め・参考集め（Nova Drift・Just Shapes & Beats・Rez など）・実装まで進めた。TypeScript・Canvas・Vite で作り、Electron で Windows の exe にして、マージのたびに GitHub Releases に置く。",
+    stack: ["TypeScript", "Canvas 2D", "Web Audio", "Vite", "Electron", "工場（ai-dev-template）"],
+    links: [
+      { label: "ダウンロード（Windows）", href: "https://github.com/Gaku1205/neon-drift-arena/releases/latest" },
+      { label: "GitHub", href: "https://github.com/Gaku1205/neon-drift-arena" },
+    ],
+    figure: {
+      type: "shots",
+      shots: {
+        desktop: "/works/neon-drift-arena-play-1440.webp",
+        alt: "neon-drift-arena のプレイ画面。ネオンの光る闘技場で、自機が弾を避けながら敵の群れを撃つ",
+        scrolled: { desktop: [], mobile: [] },
+        extras: [
+          {
+            src: "/works/neon-drift-arena-title-1440.webp",
+            alt: "neon-drift-arena のタイトル画面。ネオンの光る闘技場を背に、ゲームの名前が出る",
+          },
+          {
+            src: "/works/neon-drift-arena-boss-1440.webp",
+            alt: "neon-drift-arena のボス戦。ボス（ガーディアン）と、画面いっぱいに広がる弾",
+          },
+          {
+            src: "/works/neon-drift-arena-over-1440.webp",
+            alt: "neon-drift-arena の結果画面。1回の遊びの得点と記録が出る",
+          },
+        ],
+      },
+    },
+  },
 ];
 
 export function findWork(id: string, works: readonly Work[] = WORKS): Work | undefined {
@@ -177,9 +213,12 @@ export function firstWithShots(works: readonly Work[] = WORKS): { work: Work; in
   return index === -1 ? undefined : { work: works[index], index };
 }
 
-/** ブラウザの枠のアドレスに出す URL（短く）。公開ページがあればそれ、無ければ最初のリンク（めぐりモノは GitHub） */
+/** ブラウザの枠のアドレスに出す URL（短く）。公開ページがあればそれ、無ければ GitHub のリンク（めぐりモノ・ゲーム）、それも無ければ最初のリンク */
 export function frameAddress(work: Work): string {
-  const link = work.links.find((l) => l.label === "公開ページ") ?? work.links[0];
+  const link =
+    work.links.find((l) => l.label === "公開ページ") ??
+    work.links.find((l) => l.label === "GitHub") ??
+    work.links[0];
   return link ? shortUrl(link.href) : "";
 }
 
@@ -187,7 +226,8 @@ export function frameAddress(work: Work): string {
 export function scrolledShots(work: Work): { desktop: string[]; mobile: string[] } {
   if (work.figure.type !== "shots") return { desktop: [], mobile: [] };
   const { desktop, mobile } = work.figure.shots.scrolled;
-  return { desktop: [...desktop], mobile: [...mobile] };
+  // スマホの画面が無い作品（ゲーム）は、スマホの列を空にする
+  return { desktop: [...desktop], mobile: work.figure.shots.mobile ? [...mobile] : [] };
 }
 
 /** 工場（pipeline）の作品が作った物のうち、画面の画像を持つ物だけを順に返す */
