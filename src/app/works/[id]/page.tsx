@@ -6,7 +6,8 @@ import { GITHUB, SiteFoot } from "@/components/SiteFoot";
 import { Reveal } from "@/components/Reveal";
 import { WorkFigure } from "@/components/WorkFigure";
 import { shortUrl, workNumber } from "@/lib/format";
-import { WORKS, findWork, scrolledShots } from "@/lib/works";
+import { WORKS, findWork, frameAddress, scrolledShots } from "@/lib/works";
+import { BrowserFrame, PhoneFrame } from "@/components/DeviceFrame";
 
 type Params = { id: string };
 
@@ -40,6 +41,7 @@ export default async function WorkPage({ params }: { params: Promise<Params> }) 
   const num = workNumber(index);
   const shots = scrolledShots(work);
   const alt = work.figure.type === "shots" ? work.figure.shots.alt : "";
+  const address = frameAddress(work);
   const total = (n: number) => `${n} / ${shots.desktop.length}`;
 
   return (
@@ -131,7 +133,7 @@ export default async function WorkPage({ params }: { params: Promise<Params> }) 
                   {shots.desktop.map((src, i) => (
                     <li key={src}>
                       <Reveal>
-                        <div className="scrolled__frame">
+                        <BrowserFrame address={address}>
                           <Image
                             src={src}
                             alt={`${work.name} の PC の画面（上から ${total(i + 1)} 枚目）。${alt}`}
@@ -139,7 +141,7 @@ export default async function WorkPage({ params }: { params: Promise<Params> }) 
                             height={900}
                             sizes="(min-width: 900px) 72vw, 100vw"
                           />
-                        </div>
+                        </BrowserFrame>
                       </Reveal>
                       <p className="label">PC {total(i + 1)}</p>
                     </li>
@@ -151,7 +153,7 @@ export default async function WorkPage({ params }: { params: Promise<Params> }) 
                   {shots.mobile.map((src, i) => (
                     <li key={src}>
                       <Reveal>
-                        <div className="scrolled__phone">
+                        <PhoneFrame>
                           <Image
                             src={src}
                             alt={`${work.name} のスマホの画面（上から ${i + 1} / ${shots.mobile.length} 枚目）`}
@@ -159,7 +161,7 @@ export default async function WorkPage({ params }: { params: Promise<Params> }) 
                             height={844}
                             sizes="(min-width: 900px) 18vw, 46vw"
                           />
-                        </div>
+                        </PhoneFrame>
                       </Reveal>
                       <p className="label">
                         SP {i + 1} / {shots.mobile.length}

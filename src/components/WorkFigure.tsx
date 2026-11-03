@@ -1,17 +1,19 @@
 import Image from "next/image";
 import { PIPELINE_STEPS } from "@/lib/pipeline";
-import { WORKS, pipelineOutputs, type Work } from "@/lib/works";
+import { WORKS, frameAddress, pipelineOutputs, type Work } from "@/lib/works";
 import { workNumber } from "@/lib/format";
+import { BrowserFrame, PhoneFrame } from "./DeviceFrame";
 import { RunLog } from "./RunLog";
 
 /** 作品の図。画面を持つ作品は PC とスマホの画像、工場は進み方の図と作った物 */
 export function WorkFigure({ work, outputBase = "#" }: { work: Work; outputBase?: string }) {
   if (work.figure.type === "shots") {
     const { shots } = work.figure;
+    const address = frameAddress(work);
     return (
       <>
         <div className="shot">
-          <div className="shot__desktop">
+          <BrowserFrame address={address} className="shot__desktop">
             <Image
               src={shots.desktop}
               alt={shots.alt}
@@ -19,8 +21,8 @@ export function WorkFigure({ work, outputBase = "#" }: { work: Work; outputBase?
               height={900}
               sizes="(min-width: 900px) 72vw, 100vw"
             />
-          </div>
-          <div className="shot__mobile">
+          </BrowserFrame>
+          <PhoneFrame className="shot__mobile">
             <Image
               src={shots.mobile}
               alt=""
@@ -28,12 +30,12 @@ export function WorkFigure({ work, outputBase = "#" }: { work: Work; outputBase?
               height={844}
               sizes="(min-width: 900px) 16vw, 30vw"
             />
-          </div>
+          </PhoneFrame>
         </div>
         {shots.extras?.map((e) => (
-          <div key={e.src} className="shot__extra">
+          <BrowserFrame key={e.src} address={address} className="shot__extra">
             <Image src={e.src} alt={e.alt} width={1440} height={900} sizes="(min-width: 900px) 72vw, 100vw" />
-          </div>
+          </BrowserFrame>
         ))}
       </>
     );
