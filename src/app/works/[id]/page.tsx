@@ -42,6 +42,11 @@ export default async function WorkPage({ params }: { params: Promise<Params> }) 
   const shots = scrolledShots(work);
   const alt = work.figure.type === "shots" ? work.figure.shots.alt : "";
   const address = frameAddress(work);
+  // スマホの画面が無く、スクロールした画面も無い作品だけ、追加の画像を詳しいページに出す
+  const extras =
+    work.figure.type === "shots" && !work.figure.shots.mobile && shots.desktop.length === 0
+      ? (work.figure.shots.extras ?? [])
+      : [];
   const total = (n: number) => `${n} / ${shots.desktop.length}`;
 
   return (
@@ -148,27 +153,54 @@ export default async function WorkPage({ params }: { params: Promise<Params> }) 
                   ))}
                 </ol>
 
-                <h2 className="section-title scrolled__sub">スマホ</h2>
-                <ol className="scrolled__sp">
-                  {shots.mobile.map((src, i) => (
-                    <li key={src}>
+                {shots.mobile.length > 0 ? (
+                  <>
+                    <h2 className="section-title scrolled__sub">スマホ</h2>
+                    <ol className="scrolled__sp">
+                      {shots.mobile.map((src, i) => (
+                        <li key={src}>
+                          <Reveal>
+                            <PhoneFrame>
+                              <Image
+                                src={src}
+                                alt={`${work.name} のスマホの画面（上から ${i + 1} / ${shots.mobile.length} 枚目）`}
+                                width={390}
+                                height={844}
+                                sizes="(min-width: 900px) 18vw, 46vw"
+                              />
+                            </PhoneFrame>
+                          </Reveal>
+                          <p className="label">
+                            SP {i + 1} / {shots.mobile.length}
+                          </p>
+                        </li>
+                      ))}
+                    </ol>
+                  </>
+                ) : null}
+              </section>
+            ) : null}
+
+            {/* スマホの無い作品（ゲーム）：スクロールした画面の列の位置に、追加の画像を PC の枠で並べる */}
+            {extras.length > 0 ? (
+              <section className="scrolled" aria-label="追加の画面">
+                <ul className="scrolled__extras">
+                  {extras.map((e) => (
+                    <li key={e.src}>
                       <Reveal>
-                        <PhoneFrame>
+                        <BrowserFrame address={address}>
                           <Image
-                            src={src}
-                            alt={`${work.name} のスマホの画面（上から ${i + 1} / ${shots.mobile.length} 枚目）`}
-                            width={390}
-                            height={844}
-                            sizes="(min-width: 900px) 18vw, 46vw"
+                            src={e.src}
+                            alt={e.alt}
+                            width={1440}
+                            height={900}
+                            sizes="(min-width: 900px) 72vw, 100vw"
                           />
-                        </PhoneFrame>
+                        </BrowserFrame>
                       </Reveal>
-                      <p className="label">
-                        SP {i + 1} / {shots.mobile.length}
-                      </p>
                     </li>
                   ))}
-                </ol>
+                </ul>
               </section>
             ) : null}
 

@@ -12,7 +12,7 @@ export function WorkFigure({ work, outputBase = "#" }: { work: Work; outputBase?
     const address = frameAddress(work);
     return (
       <>
-        <div className="shot">
+        <div className={shots.mobile ? "shot" : "shot shot--solo"}>
           <BrowserFrame address={address} className="shot__desktop">
             <Image
               src={shots.desktop}
@@ -22,17 +22,20 @@ export function WorkFigure({ work, outputBase = "#" }: { work: Work; outputBase?
               sizes="(min-width: 900px) 72vw, 100vw"
             />
           </BrowserFrame>
-          <PhoneFrame className="shot__mobile">
-            <Image
-              src={shots.mobile}
-              alt=""
-              width={390}
-              height={844}
-              sizes="(min-width: 900px) 16vw, 30vw"
-            />
-          </PhoneFrame>
+          {shots.mobile ? (
+            <PhoneFrame className="shot__mobile">
+              <Image
+                src={shots.mobile}
+                alt=""
+                width={390}
+                height={844}
+                sizes="(min-width: 900px) 16vw, 30vw"
+              />
+            </PhoneFrame>
+          ) : null}
         </div>
-        {shots.extras?.map((e) => (
+        {/* スマホの無い作品（ゲーム）の追加の画像は、詳しいページに出す */}
+        {(shots.mobile ? shots.extras : undefined)?.map((e) => (
           <BrowserFrame key={e.src} address={address} className="shot__extra">
             <Image src={e.src} alt={e.alt} width={1440} height={900} sizes="(min-width: 900px) 72vw, 100vw" />
           </BrowserFrame>

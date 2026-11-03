@@ -680,8 +680,15 @@ ol {
   width: 19%;
   min-width: 82px;
 }
+.shot--solo {
+  padding-bottom: 0;
+}
 .shot__extra {
   margin-top: 24px;
+}
+.scrolled__extras {
+  display: grid;
+  gap: 24px;
 }
 
 /* ブラウザの窓：上に細いバー（丸3つ＋アドレス）。CSS だけで作る */
