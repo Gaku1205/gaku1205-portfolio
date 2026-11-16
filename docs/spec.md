@@ -13,7 +13,8 @@
   - 場面：リンクを開いて最初の1画面で「AI に開発を回させる仕組みを作っている人」と分かり、気になった作品の画面を見て、公開ページか GitHub へ進む
   - PC でもスマホでも、数十秒で6つの作品を見比べられることが大事
 - 技術：Next.js（App Router）＋TypeScript、テストはVitest
-- 公開：GitHub Pages（https://gaku1205.github.io）に、静的なサイトとして書き出して出す（`next.config.ts` の `output: "export"`）。サーバーで動く機能（API・画像の最適化・リクエストごとに変わる画面）は使わない。`[id]` のようなページは `generateStaticParams` で全部のページを書き出す
+- 公開：GitHub Pages（https://gaku1205.github.io/gaku1205-portfolio/ 。リポジトリ名の階層の下）に、静的なサイトとして書き出して出す（`next.config.ts` の `output: "export"`）。サーバーで動く機能（API・画像の最適化・リクエストごとに変わる画面）は使わない。`[id]` のようなページは `generateStaticParams` で全部のページを書き出す
+- 公開先の階層：公開のビルドのときだけ、環境変数 `PAGES_BASE_PATH`（`/gaku1205-portfolio`。`pipeline.json` の `deploy` の `build`）を渡し、`next.config.ts` が `basePath` に入れる（付けないと、CSS・JS・画像を直下から読んで全部 404 になる）。手元と CI のビルドでは空。`next/link` には自動で付くが、`next/image` の `src` と素の `<a>` には付かないので、`src/lib/asset.ts` の `asset()` を通す（`public/` の画像と、`/works/…` への素のリンク）。作品のデータ（`src/lib/works.ts`）の道は `/works/…` のまま書く
 
 ## 画面
 

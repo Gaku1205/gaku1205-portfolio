@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { asset } from "@/lib/asset";
 import { PIPELINE_STEPS } from "@/lib/pipeline";
 import { WORKS, frameAddress, pipelineOutputs, type Work } from "@/lib/works";
 import { workNumber } from "@/lib/format";
@@ -15,7 +16,7 @@ export function WorkFigure({ work, outputBase = "#" }: { work: Work; outputBase?
         <div className={shots.mobile ? "shot" : "shot shot--solo"}>
           <BrowserFrame address={address} className="shot__desktop">
             <Image
-              src={shots.desktop}
+              src={asset(shots.desktop)}
               alt={shots.alt}
               width={1440}
               height={900}
@@ -25,7 +26,7 @@ export function WorkFigure({ work, outputBase = "#" }: { work: Work; outputBase?
           {shots.mobile ? (
             <PhoneFrame className="shot__mobile">
               <Image
-                src={shots.mobile}
+                src={asset(shots.mobile)}
                 alt=""
                 width={390}
                 height={844}
@@ -37,7 +38,7 @@ export function WorkFigure({ work, outputBase = "#" }: { work: Work; outputBase?
         {/* スマホの無い作品（ゲーム）の追加の画像は、詳しいページに出す */}
         {(shots.mobile ? shots.extras : undefined)?.map((e) => (
           <BrowserFrame key={e.src} address={address} className="shot__extra">
-            <Image src={e.src} alt={e.alt} width={1440} height={900} sizes="(min-width: 900px) 72vw, 100vw" />
+            <Image src={asset(e.src)} alt={e.alt} width={1440} height={900} sizes="(min-width: 900px) 72vw, 100vw" />
           </BrowserFrame>
         ))}
       </>
@@ -58,8 +59,8 @@ export function WorkFigure({ work, outputBase = "#" }: { work: Work; outputBase?
             if (o.figure.type !== "shots") return null;
             return (
               <li key={o.id}>
-                <a href={`${outputBase}${o.id}`} className="pipe__out">
-                  <Image src={o.figure.shots.desktop} alt="" width={1440} height={900} sizes="(min-width: 900px) 24vw, 46vw" />
+                <a href={asset(`${outputBase}${o.id}`)} className="pipe__out">
+                  <Image src={asset(o.figure.shots.desktop)} alt="" width={1440} height={900} sizes="(min-width: 900px) 24vw, 46vw" />
                   <span className="pipe__outname">
                     <span className="mono">{workNumber(index)}</span> {o.name}
                   </span>

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { asset } from "@/lib/asset";
 import { RunLog } from "@/components/RunLog";
 import { GITHUB, SiteFoot } from "@/components/SiteFoot";
 import { WorkSection } from "@/components/WorkSection";
@@ -64,7 +65,7 @@ export default function Home() {
                   <a href={`#${featured.work.id}`} className="feature">
                     <span className="feature__img">
                       <Image
-                        src={featured.work.figure.shots.desktop}
+                        src={asset(featured.work.figure.shots.desktop)}
                         alt=""
                         width={1440}
                         height={900}
