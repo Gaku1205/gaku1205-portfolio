@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { asset } from "@/lib/asset";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { GITHUB, SiteFoot } from "@/components/SiteFoot";
@@ -140,7 +141,7 @@ export default async function WorkPage({ params }: { params: Promise<Params> }) 
                       <Reveal>
                         <BrowserFrame address={address}>
                           <Image
-                            src={src}
+                            src={asset(src)}
                             alt={`${work.name} の PC の画面（上から ${total(i + 1)} 枚目）。${alt}`}
                             width={1440}
                             height={900}
@@ -162,7 +163,7 @@ export default async function WorkPage({ params }: { params: Promise<Params> }) 
                           <Reveal>
                             <PhoneFrame>
                               <Image
-                                src={src}
+                                src={asset(src)}
                                 alt={`${work.name} のスマホの画面（上から ${i + 1} / ${shots.mobile.length} 枚目）`}
                                 width={390}
                                 height={844}
@@ -190,7 +191,7 @@ export default async function WorkPage({ params }: { params: Promise<Params> }) 
                       <Reveal>
                         <BrowserFrame address={address}>
                           <Image
-                            src={e.src}
+                            src={asset(e.src)}
                             alt={e.alt}
                             width={1440}
                             height={900}

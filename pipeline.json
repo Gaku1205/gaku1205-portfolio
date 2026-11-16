@@ -7,5 +7,5 @@
     { "name": "テスト", "run": "npm run test" },
     { "name": "ビルド", "run": "npm run build" }
   ],
-  "deploy": [{ "kind": "github-pages" }]
+  "deploy": [{ "kind": "github-pages", "build": "PAGES_BASE_PATH=/gaku1205-portfolio npm run build" }]
 }
