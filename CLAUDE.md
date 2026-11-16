@@ -1,6 +1,6 @@
 # このリポジトリでのルール
 
-gaku1205-portfolio：福岡で Web と AI の開発を学ぶ Gaku1205 の作品4つを、画像と文字・余白で見せるポートフォリオサイト。Next.js（App Router）＋TypeScript。
+gaku1205-portfolio：福岡で Web と AI の開発を学ぶ Gaku1205 の作品6つを、画像と文字・余白で見せるポートフォリオサイト。Next.js（App Router）＋TypeScript。
 
 - 作業の前に必ず `docs/spec.md`（仕様書）を読む。画面に触る作業では `docs/design.md`（デザイン仕様）も読み、色・文字・文言はそこに書かれたものだけを使う。仕様と食い違う指示がIssueにあれば、Issueを優先し、PRの説明にその旨を書く
 - Next.js固有の注意は AGENTS.md を読む。このNext.jsは学習データと違う所があるので、`node_modules/next/dist/docs/` を確認してから書く
