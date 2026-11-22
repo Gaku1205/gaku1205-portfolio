@@ -77,7 +77,7 @@ describe("scrolledShots", () => {
 describe("frameAddress", () => {
   it("公開ページがあればその URL を短くして返す", () => {
     expect(frameAddress(findWork("agent-desk") as Work)).toBe("agent-desk-ip1u.vercel.app");
-    expect(frameAddress(findWork("neon-sneaker-drop") as Work)).toBe("neon-sneaker-drop.vercel.app");
+    expect(frameAddress(findWork("neon-sneaker-drop") as Work)).toBe("gaku1205.github.io/neon-sneaker-drop");
   });
   it("公開ページが無ければ最初のリンク（GitHub）を返す", () => {
     expect(frameAddress(WORKS[0])).toBe("github.com/Gaku1205/hakata-lost-found-auction");
