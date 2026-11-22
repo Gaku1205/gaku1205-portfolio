@@ -149,7 +149,7 @@ export const WORKS: Work[] = [
     how: "「派手なスニーカーの発売ページ」という1行のメモから、工場が作った。atelier-journal とは正反対の雰囲気を、同じ仕組みから出せるかを試した。",
     stack: ["Next.js", "TypeScript", "工場（ai-dev-template）"],
     links: [
-      { label: "公開ページ", href: "https://neon-sneaker-drop.vercel.app" },
+      { label: "公開ページ", href: "https://gaku1205.github.io/neon-sneaker-drop/" },
       { label: "GitHub", href: "https://github.com/Gaku1205/neon-sneaker-drop" },
     ],
     figure: {
