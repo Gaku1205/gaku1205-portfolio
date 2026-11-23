@@ -663,6 +663,10 @@ ol {
 .link-row:hover .link-row__arrow {
   transform: translate(3px, -3px);
 }
+/* 「画面をもっと見る」「進み方を詳しく見る」の「→」は右に 3px だけ動く */
+.link-row--more:hover .link-row__arrow {
+  transform: translateX(3px);
+}
 .link-row:hover .link-row__label {
   text-decoration: underline;
   text-underline-offset: 4px;
